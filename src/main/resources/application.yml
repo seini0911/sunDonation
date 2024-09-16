@@ -1,0 +1,17 @@
+#Server configuration
+server:
+  port: 9000
+
+
+#App configuration
+spring:
+  application:
+    name: donations
+
+
+
+
+
+#Starting name of our api endpoints
+api:
+  prefix: /api/v1
