@@ -12,4 +12,13 @@ public class DonationController {
     public String getAllDonations(){
         return "All donations list";
     }
+
+    public String createDonation(){
+        return "Create a new donation request";
+    }
+
+
+    public String updateDonation(){
+        return "Update a donation";
+    }
 }
