@@ -19,5 +19,4 @@ public class UserDto {
     private String email;
     private String phone;
     private String location; //user's city/town/country
-    private List<Donation> donations;
 }

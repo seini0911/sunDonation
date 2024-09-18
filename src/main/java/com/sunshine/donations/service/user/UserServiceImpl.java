@@ -1,6 +1,7 @@
 package com.sunshine.donations.service.user;
 
 import com.sunshine.donations.exceptions.ResourceAlreadyExistException;
+import com.sunshine.donations.exceptions.ResourceNotFoundException;
 import com.sunshine.donations.model.User;
 import com.sunshine.donations.repository.user.UserRepository;
 import com.sunshine.donations.requests.RegisterUserRequest;
@@ -27,7 +28,7 @@ public class UserServiceImpl implements IUserService{
                 .location(userRequest.getLocation())
                 .donations(new ArrayList<>())
                 .build();
-        log.info(" ****** Saving a new user with email :   "+ userRequest.getEmail());
+        log.info(" ****** Saving a new user with email :   {}", userRequest.getEmail());
         return Optional.of(newUser)
                 .filter(user-> !userRepository.existsByEmail(newUser.getEmail()))
                 .map(userRepository::save)
@@ -39,13 +40,20 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
+    public List<User> getAllUsers() {
+        log.info("*** Getting all users list : {}", userRepository.findAll());
+        return userRepository.findAll();
+    }
+
+    @Override
     public User findUserByName(String name) {
         return null;
     }
 
     @Override
     public User findUserById(Long id) {
-        return null;
+        return userRepository.findByUserId(id)
+                .orElseThrow(()-> new ResourceNotFoundException("User not found"));
     }
 
     @Override
@@ -58,9 +66,4 @@ public class UserServiceImpl implements IUserService{
         return null;
     }
 
-    @Override
-    public List<User> getAllUsers() {
-        log.info("*** Getting all users list : "+ userRepository.findAll());
-        return userRepository.findAll();
-    }
 }

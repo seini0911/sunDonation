@@ -12,12 +12,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterUserRequest {
-    @NotNull
+    @NotNull(message = "name is required")
     private String name;
-    @NotNull
+    @NotNull(message = "email is required")
     private String email;
-    @NotNull
+    @NotNull(message = "phone is required")
     private String phone;
-    @NotNull
     private String location;
 }
