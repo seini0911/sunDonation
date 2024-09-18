@@ -52,6 +52,26 @@ public class DonationController {
         }
     }
 
+    /* Endpoint to get a donation request fundraiser or initiator */
+    @GetMapping("/{donationId}/fundraiser")
+    public ResponseEntity<Object> getDonationFundraiser(
+            @PathVariable Long donationId
+    ){
+        try{
+            return ApiResponseHandler.buildResponse(
+                "Donation "+donationId+" fundraiser",
+                HttpStatus.OK,
+                donationService.getDonationById(donationId).getFundraiser()
+            );
+        }catch (Exception e){
+            return ApiResponseHandler.buildResponse(
+              e.getMessage(),
+              HttpStatus.NOT_FOUND,
+              null
+            );
+        }
+    }
+
     /* Endpoint to get all gifts made for a given donation request */
     @GetMapping("/{donationId}/gifts")
     public ResponseEntity<Object> getDonationGifts(@PathVariable Long donationId){
