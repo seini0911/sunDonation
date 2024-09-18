@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("${api.prefix}/users")
 @RequiredArgsConstructor
 public class UserController {
+    /* User service Injection */
     private final IUserService userService;
 
+    /* Endpoint to register a new user account */
     @PostMapping
     public ResponseEntity<Object> register(@RequestBody RegisterUserRequest userRequest) {
         try {
@@ -31,6 +33,7 @@ public class UserController {
         }
     }
 
+    /* Endpoint to get all users accounts */
     @GetMapping
     public ResponseEntity<Object> getAllUsers() {
         try {
@@ -41,9 +44,27 @@ public class UserController {
             );
         } catch (Exception e) {
             return ApiResponseHandler.buildResponse(
-                    "An error while getting users list",
+                    "An error occurred while getting users list",
                     HttpStatus.INTERNAL_SERVER_ERROR,
                     e.getMessage()
+            );
+        }
+    }
+
+    /* Endpoint to get a user account by his userId */
+    @GetMapping("/{userId}")
+    public ResponseEntity<Object> getUserById(@PathVariable Long userId){
+        try{
+            return  ApiResponseHandler.buildResponse(
+                "User retrieved",
+                HttpStatus.OK,
+                userService.findUserById(userId)
+            );
+        }catch(Exception e){
+            return ApiResponseHandler.buildResponse(
+                e.getMessage(),
+                HttpStatus.NOT_FOUND,
+                null
             );
         }
     }
