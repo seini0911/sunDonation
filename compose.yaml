@@ -1,6 +1,26 @@
 services:
+  app:
+    image: 'docker-spring-boot-postgres:latest'
+    build:
+      context: .
+#      dockerfile: Dockerfile
+    container_name: app
+    depends_on:
+      - postgres
+    environment:
+      - 'POSTGRES_USER=myuser'
+      - 'POSTGRES_PASSWORD=secret'
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/donations'
+      - 'SPRING_DATASOURCE_USERNAME=myuser'
+      - 'SPRING_DATASOURCE_PASSWORD=secret'
+      - 'SPRING_JPA_HIBERNATE_DDL_AUTO=update'
+      -  'SPRING_PROFILES_ACTIVE: dev'
+    ports:
+      - '9000:9000'
+
   postgres:
     image: 'postgres:latest'
+    container_name: db
     environment:
       - 'POSTGRES_DB=donations'
       - 'POSTGRES_PASSWORD=secret'
